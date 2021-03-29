@@ -1,4 +1,4 @@
-package pageParser;
+package helpers;
 
 /**
  * @description Class with static methods to convert html data to text.
