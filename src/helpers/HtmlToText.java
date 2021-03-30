@@ -18,10 +18,16 @@ public class HtmlToText {
 	  private static HashSet<String> urlAddedList = new HashSet<String>();
 	  static List<String> referredUrl= new ArrayList<String>();
 
-   	 public static void parser( String baseUrl,HashMap<String, List<String>> referencedUrl) 
+	  /**
+	   * This method accepts the Hashmap from the web crawler and iterates through the hashmap keys ie the referenced urls
+	   * The text content of each url is then referenced
+	   * @param referencedUrl
+	   */
+   	 public static void parser(HashMap<String, List<String>> referencedUrl) 
      {
-   	  referredUrl= referencedUrl.get(baseUrl);
-   	  for (String urlRef : referredUrl)  
+   	  
+   	  urlAddedList.addAll(referencedUrl.keySet());
+   	  for (String urlRef :  urlAddedList)  
    		  try{
    	  {      	  
    		  if (!urlRef.isEmpty())
@@ -42,7 +48,8 @@ public class HtmlToText {
 	    webCrawler.crawl("http://ask.uwindsor.ca");
 	    System.out.println("");
 	    HashMap<String, List<String>> links=webCrawler.getReferencedLinksMap();
-	    parser("http://ask.uwindsor.ca",links);
+	    //System.out.println(links);
+	    parser(links);
 	  }
 
 }
