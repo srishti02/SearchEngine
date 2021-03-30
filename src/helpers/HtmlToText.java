@@ -1,8 +1,48 @@
 package helpers;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import webCrawler.Crawler;
+
 /**
  * @description Class with static methods to convert html data to text.
  */
 public class HtmlToText {
+	  private static HashSet<String> urlAddedList = new HashSet<String>();
+	  static List<String> referredUrl= new ArrayList<String>();
+
+   	 public static void parser( String baseUrl,HashMap<String, List<String>> referencedUrl) 
+     {
+   	  referredUrl= referencedUrl.get(baseUrl);
+   	  for (String urlRef : referredUrl)  
+   		  try{
+   	  {      	  
+   		  if (!urlRef.isEmpty())
+   		  { 
+   	  	  Document doc = Jsoup.connect(urlRef).get();
+   		  String content=doc.text();
+   		  System.out.println("url is " +urlRef);
+   		  System.out.println("content is "+content);}
+   	  }}
+       catch (IOException e) 
+       {}
+
+     }
+   	 
+     public static void main(String[] args) 
+	  {
+	    Crawler webCrawler = new Crawler();
+	    webCrawler.crawl("http://ask.uwindsor.ca");
+	    System.out.println("");
+	    HashMap<String, List<String>> links=webCrawler.getReferencedLinksMap();
+	    parser("http://ask.uwindsor.ca",links);
+	  }
 
 }
