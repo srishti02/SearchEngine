@@ -25,21 +25,27 @@ public class PageParser {
     HashMap<String,String> urlsContent =
       HtmlToText.convertToText(urls);
 
+    /** for each url*/
     Iterator contentItr = urlsContent.entrySet().iterator();
     while(contentItr.hasNext())
     {
     	HashMap.Entry entry = (HashMap.Entry) contentItr.next();
 
+      /** get tokens from content of each url*/
       StringTokenizer tokenizer = new StringTokenizer((String) entry.getValue()," ,.()");
       
       int i = 0;
       /** for all tokens*/
       while(tokenizer.hasMoreElements())
       {
-        tokenizer.nextToken();
+        /** get next token*/
+        String token = tokenizer.nextToken();
+
+        /**Insert to TST*/
+
         ++i;
       }
-      System.out.println("No. of strings : " + i);
+      System.out.println("No. of tokens : " + i);
     }
   }
   
