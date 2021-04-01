@@ -16,9 +16,10 @@ import java.io.*;
 public class Crawler {
 
   private HashSet<String> urls = new HashSet<String>();
-  private HashSet<String> set = new HashSet<String>();
+  
   private HashMap<String, List<String>> urlLinks = 
     new HashMap<String, List<String>>();
+ 
   private int maxLinksToCrawl = 10;
   
   public Crawler(int maxLinks)
@@ -43,7 +44,7 @@ public class Crawler {
       /** add url to crawled urls set*/
       urls.add(referenceUrl);
 
-      System.out.println("URL : " + referenceUrl);
+      //System.out.println("URL : " + referenceUrl);
       try 
       {
         /** fetch html data from url*/
@@ -84,9 +85,6 @@ public class Crawler {
   {
     urlLinks.putIfAbsent(key, new ArrayList<String>());
     urlLinks.get(key).add(value);
-    set.add(value);
-    System.out.println("Set : " + set.size());
-    System.out.println("urls : " + urls.size());
   }
 
   public static void main(String[] args)

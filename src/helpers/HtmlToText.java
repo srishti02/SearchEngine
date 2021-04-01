@@ -68,8 +68,8 @@ public class HtmlToText {
 
           for(String ignore : ignoreWords)
           {
-          //  content.replaceAll(ignore,"");
-            System.out.println("removed " + ignore);
+            content.replaceAll(ignore,"");
+            //System.out.println("removed " + ignore);
           }
 
           pages.put(urlRef,content);
