@@ -1,5 +1,6 @@
 package pageParser;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import helpers.HtmlToText;
+import patternMatching.TST;
 import webCrawler.Crawler;
 
 /**
@@ -19,6 +21,8 @@ import webCrawler.Crawler;
  */
 public class PageParser {
 
+	private static TST<String> tst = new TST<String>();
+	
   public static void parse(HashSet<String> urls)
   {
     /** get content of all urls as text*/
@@ -34,7 +38,6 @@ public class PageParser {
       /** get tokens from content of each url*/
       StringTokenizer tokenizer = new StringTokenizer((String) entry.getValue()," ,.()");
       
-      int i = 0;
       /** for all tokens*/
       while(tokenizer.hasMoreElements())
       {
@@ -42,18 +45,19 @@ public class PageParser {
         String token = tokenizer.nextToken();
 
         /**Insert to TST*/
-
-        ++i;
+        tst.put(token,null);
       }
-      System.out.println("No. of tokens : " + i);
     }
   }
   
   public static void main(String[] args) 
   {
-    Crawler webCrawler = new Crawler(5);
+	System.out.println(Instant.now());
+    Crawler webCrawler = new Crawler(1000);
     webCrawler.crawl("http://ask.uwindsor.ca");
-    System.out.println("");
+    System.out.println("Crawling completed");
+    System.out.println(Instant.now());
     parse(webCrawler.getUrls());
+    System.out.println(Instant.now());
   }
 }
