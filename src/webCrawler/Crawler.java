@@ -43,6 +43,7 @@ public class Crawler {
     {
       /** add url to crawled urls set*/
       urls.add(referenceUrl);
+      urlLinks.putIfAbsent(referenceUrl, new ArrayList<String>());
 
       //System.out.println("URL : " + referenceUrl);
       try 
@@ -83,13 +84,12 @@ public class Crawler {
 
   private void addToReferenceLinks(String key, String value)
   {
-    urlLinks.putIfAbsent(key, new ArrayList<String>());
     urlLinks.get(key).add(value);
   }
 
   public static void main(String[] args)
   {
-    Crawler webCrawler = new Crawler(10);
+    Crawler webCrawler = new Crawler(5);
     webCrawler.crawl("http://uwindsor.ca");
     System.out.println("");
     HashMap<String, List<String>> map = webCrawler.getReferencedLinksMap();
