@@ -134,11 +134,11 @@ public class DbHandler {
 	}
 
 	/** Function for searching from the tble */
-	public Map<String, List<String>> search() {
+	public HashMap<String, List<String>> search() {
 
 		long start,end;
 		Connection c = connection_estabilish();
-		Map<String, List<String>> hashMap
+		HashMap<String, List<String>> hashMap
 			= new HashMap<String, List<String>>();
 
 		try {

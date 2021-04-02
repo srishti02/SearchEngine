@@ -84,6 +84,7 @@ public class NetworkTST
    * @param val : url for which string is to be inserted
    */
   public void put(String s, UrlStruct val) {
+	  System.out.println("inserting " + s);
     if (!contains(s)) n++;
     root = put(root, s, val, 0);
   }
@@ -101,12 +102,12 @@ public class NetworkTST
     return x;
   }
 
-  //    // all keys in symbol table
-  //    public Iterable<String> keys() {
-  //        Queue<String> queue = new Queue<String>();
-  //        collect(root, "", queue);
-  //        return queue;
-  //    }
+      // all keys in symbol table
+      public Iterable<String> keys() {
+          Queue<String> queue = new Queue<String>();
+          collect(root, "", queue);
+          return queue;
+      }
   //
   //    // all keys starting with given prefix
   //    public Iterable<String> prefixMatch(String prefix) {
@@ -119,13 +120,13 @@ public class NetworkTST
   //    }
   //
   //    // all keys in subtrie rooted at x with given prefix
-  //    private void collect(Node x, String prefix, Queue<String> queue) {
-  //        if (x == null) return;
-  //        collect(x.left,  prefix,       queue);
-  //        if (!x.urlSet.isEmpty()) queue.enqueue(prefix + x.c);
-  //        collect(x.mid,   prefix + x.c, queue);
-  //        collect(x.right, prefix,       queue);
-  //    }
+      private void collect(Node x, String prefix, Queue<String> queue) {
+          if (x == null) return;
+          collect(x.left,  prefix,       queue);
+          if (!x.urlSet.isEmpty()) queue.enqueue(prefix + x.c);
+          collect(x.mid,   prefix + x.c, queue);
+          collect(x.right, prefix,       queue);
+      }
   //
   //
   //    // return all keys matching given wildcard pattern
