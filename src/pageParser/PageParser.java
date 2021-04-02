@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import helpers.DbHandler;
@@ -55,27 +56,38 @@ public class PageParser {
   
   public static void main(String[] args) 
   {
-	HashSet<String> keyset;
-	Map<String, List<String>> urlMap = new HashMap<String, List<String>>();
-    boolean crawl = false;
-    if(crawl)
-    {
-    Crawler webCrawler = new Crawler(10);
-    webCrawler.crawl("http://ask.uwindsor.ca");
-    DbHandler.insertion(webCrawler.getReferencedLinksMap());
-    System.out.println("Crawling completed");
-    System.out.println(Instant.now());
-    keyset=webCrawler.getUrls();
- 
-    }
-    else
-    {
-    urlMap=DbHandler.search();
-    keyset = new HashSet<String>(urlMap.keySet());
-    }
-    parse(keyset);
-    System.out.println(Instant.now());
+	  System.out.println("Please enter your database details  :");
+	  Scanner input = new Scanner(System.in);
+	  System.out.println("Enter ip :");
+	  String ip = input.nextLine();
+	  System.out.println("Enter port :");
+	  String port = input.nextLine();
+	  System.out.println("Enter username :");
+	  String user = input.nextLine();
+	  System.out.println("Enter password :");
+	  String password = input.nextLine();
+	  System.out.println("\n");
+	  System.out.println("Want to Crawl? : ");
+	  Boolean crawl = input.nextBoolean();
 
-
+	  HashSet<String> keyset;
+	  Map<String, List<String>> urlMap = new HashMap<String, List<String>>();
+	  DbHandler db = new DbHandler(ip,port,user,password);
+	  if(crawl == true)
+	  {
+		  Crawler webCrawler = new Crawler(10);
+		  System.out.println(Instant.now());
+		  webCrawler.crawl("http://ask.uwindsor.ca");
+		  db.insertion(webCrawler.getReferencedLinksMap());
+		  System.out.println("Crawling completed & inserted to database");
+		  keyset = webCrawler.getUrls();
+	  }
+	  else
+	  {
+		  urlMap = db.search();
+		  keyset = new HashSet<String>(urlMap.keySet());
+	  }
+	  parse(keyset);
+	  System.out.println(Instant.now());
   }
 }
