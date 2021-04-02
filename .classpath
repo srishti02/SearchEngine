@@ -6,9 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/siddharth/Downloads/New folder/jsoup-1.8.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddharth/Downloads/New folder/jsoup-1.8.1-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddharth/Downloads/New folder/jsoup-1.8.1-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddharth/Downloads/postgresql-42.2.19.jar"/>
+	<classpathentry kind="lib" path="C:/Users/srish/Downloads/jsoup-1.8.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
