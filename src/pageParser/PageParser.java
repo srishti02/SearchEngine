@@ -12,7 +12,8 @@ import java.util.StringTokenizer;
 
 import helpers.DbHandler;
 import helpers.HtmlToText;
-import patternMatching.TST;
+import helpers.Structures.UrlStruct;
+import patternMatching.NetworkTST;
 import webCrawler.Crawler;
 
 /**
@@ -25,8 +26,8 @@ import webCrawler.Crawler;
  */
 public class PageParser {
 
-	private static TST<String> tst = new TST<String>();
-	
+  private static NetworkTST tst = new NetworkTST();
+
   public static void parse(HashSet<String> urls)
   {
     /** get content of all urls as text*/
@@ -37,11 +38,11 @@ public class PageParser {
     Iterator contentItr = urlsContent.entrySet().iterator();
     while(contentItr.hasNext())
     {
-    	HashMap.Entry entry = (HashMap.Entry) contentItr.next();
+      HashMap.Entry entry = (HashMap.Entry) contentItr.next();
 
       /** get tokens from content of each url*/
       StringTokenizer tokenizer = new StringTokenizer((String) entry.getValue()," ,.()");
-      
+
       /** for all tokens*/
       while(tokenizer.hasMoreElements())
       {
@@ -49,11 +50,11 @@ public class PageParser {
         String token = tokenizer.nextToken();
 
         /**Insert to TST*/
-        tst.put(token,null);
+        tst.put(token, new UrlStruct((String)entry.getKey()));
       }
     }
   }
-  
+
   public static void main(String[] args) 
   {
 	  System.out.println("Please enter your database details  :");
