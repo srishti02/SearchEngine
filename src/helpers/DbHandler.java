@@ -31,7 +31,7 @@ public class DbHandler {
 	         /**Basic service for managing set of JDBC Drivers */
 	         c = DriverManager
 	                 .getConnection("jdbc:postgresql://127.0.0.1:5432/postgres",
-	                 "postgres", "123456");
+	                 "postgres", "Test@123");
 	         System.out.println("Opened database successfully");
 	         
 		}catch ( Exception e ) {
@@ -40,6 +40,7 @@ public class DbHandler {
             System.exit(0);
          }
 		return c;		
+		
 	}
 	
 	 /** Function for insertion into the table with HashMap value as argument */
@@ -50,6 +51,26 @@ public class DbHandler {
 			 /** Insert query using Prepared statement for the security purpose */
 			String sql1 = "INSERT INTO url_table VALUES (?, ?)";
 	        PreparedStatement pstmt = c.prepareStatement(sql1);
+	        //Query to create url table in the database
+	         String create_url_table = "Create Table url_table_1 (url text primary key,refrenced_url text[])";
+	         PreparedStatement pstmt2 = c.prepareStatement(create_url_table);
+	            DatabaseMetaData metaData = c.getMetaData();
+	            String[] types = {"TABLE"};
+	            ArrayList<String> all_tables = new ArrayList<String>();
+	            //To fetch all the table names in the current database schema
+	            ResultSet rs = metaData.getTables(null, null, "%",types );
+	            //Iterating through the result set to get the table names 
+	            while(rs.next())
+                {
+	            	all_tables.add(rs.getString(3));
+                }
+	            //To verify if the table name is already present in the current database
+	            if(!all_tables.contains("url_table"))
+	            {
+	            	System.out.println("Create table");
+	            	ResultSet rs2 = pstmt2.executeQuery();
+	            }
+	            
 	        
 	        /** Iterating the HashMap entries */
 	        Iterator iter = links.entrySet().iterator();
@@ -93,6 +114,7 @@ public class DbHandler {
 			String sql2 = "SELECT * FROM url_table";
 	         PreparedStatement pstmt2 = c.prepareStatement(sql2);
 	         ResultSet rs = pstmt2.executeQuery();
+
 	         //int count = 0;
 	        /** Iterating through the result of search */
 	         while(rs.next()) {
