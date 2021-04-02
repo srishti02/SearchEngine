@@ -1,10 +1,6 @@
 package webCrawler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,16 +12,6 @@ import java.io.*;
 public class Crawler {
 
   private HashSet<String> urls = new HashSet<String>();
-  
-  private HashMap<String, List<String>> urlLinks = 
-    new HashMap<String, List<String>>();
- 
-  private int maxLinksToCrawl = 10;
-  
-  public Crawler(int maxLinks)
-  {
-	  maxLinksToCrawl = maxLinks;
-  }
 
   /**
    * @brief Method to crawl the url passed as argument and get all the
@@ -39,12 +25,12 @@ public class Crawler {
       return;
 
     /** check if the url has already been crawled*/
-    if(!urls.contains(referenceUrl) && urls.size() < maxLinksToCrawl)
+    if(!urls.contains(referenceUrl))
     {
       /** add url to crawled urls set*/
       urls.add(referenceUrl);
 
-      //System.out.println("URL : " + referenceUrl);
+      System.out.println("URL : " + referenceUrl);
       try 
       {
         /** fetch html data from url*/
@@ -56,12 +42,6 @@ public class Crawler {
         /** for all urls fetched from page*/
         for(Element url : urlsToCrawl)
         {
-          if(urls.size() >= maxLinksToCrawl)
-        	break;
-        	
-          /** add to reference hash map*/
-          addToReferenceLinks(referenceUrl,url.attr("abs:href"));
-
           /** recursive call*/
           crawl(url.attr("abs:href"));
         }
@@ -71,35 +51,10 @@ public class Crawler {
     }
   }
 
-  public HashMap<String, List<String>> getReferencedLinksMap()
-  {
-    return urlLinks;
-  }
-
-  public HashSet<String> getUrls()
-  {
-    return urls;
-  }
-
-  private void addToReferenceLinks(String key, String value)
-  {
-    urlLinks.putIfAbsent(key, new ArrayList<String>());
-    urlLinks.get(key).add(value);
-  }
-
   public static void main(String[] args)
   {
-    Crawler webCrawler = new Crawler(10);
-    webCrawler.crawl("http://uwindsor.ca");
+    Crawler webCrawler = new Crawler();
+    webCrawler.crawl("http://ask.uwindsor.ca");
     System.out.println("");
-    HashMap<String, List<String>> map = webCrawler.getReferencedLinksMap();
-    Iterator iter = map.entrySet().iterator();
-    
-    while(iter.hasNext())
-    {
-    	HashMap.Entry entry = (HashMap.Entry) iter.next();
-    	System.out.println("[Key] : " + entry.getKey());
-    	System.out.println("[Value] :" + entry.getValue());
-    }   
   }
 }
