@@ -153,6 +153,7 @@ public class DbHandler {
 	    /**Calling above created methods   */ 
 	      insertion(links);
 	      search();
+	      System.out.println("Process Completed Successfully");
 	}
 }
 
