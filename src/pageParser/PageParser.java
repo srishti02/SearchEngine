@@ -9,10 +9,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 import helpers.DbHandler;
 import helpers.HtmlToText;
 import helpers.Structures.UrlStruct;
+import pageRanking.PageRanker;
 import patternMatching.NetworkTST;
 import webCrawler.Crawler;
 
@@ -39,6 +41,7 @@ public class PageParser {
     while(contentItr.hasNext())
     {
       HashMap.Entry entry = (HashMap.Entry) contentItr.next();
+      UrlStruct value = new UrlStruct((String) entry.getKey());
 
       /** get tokens from content of each url*/
       StringTokenizer tokenizer = new StringTokenizer((String) entry.getValue()," ,.()");
@@ -50,7 +53,7 @@ public class PageParser {
         String token = tokenizer.nextToken();
 
         /**Insert to TST*/
-        tst.put(token, new UrlStruct((String)entry.getKey()));
+        tst.put(token, value);
       }
     }
   }
@@ -72,15 +75,20 @@ public class PageParser {
 	  Boolean crawl = input.nextBoolean();
 
 	  HashSet<String> keyset;
-	  Map<String, List<String>> urlMap = new HashMap<String, List<String>>();
+	  HashMap<String, List<String>> urlMap = new HashMap<String, List<String>>();
 	  DbHandler db = new DbHandler(ip,port,user,password);
 	  if(crawl == true)
 	  {
 		  Crawler webCrawler = new Crawler(10);
 		  System.out.println(Instant.now());
 		  webCrawler.crawl("http://ask.uwindsor.ca");
-		  db.insertion(webCrawler.getReferencedLinksMap());
-		  System.out.println("Crawling completed & inserted to database");
+      urlMap = webCrawler.getReferencedLinksMap();
+		  
+      new Thread( () -> {
+        db.insertion(webCrawler.getReferencedLinksMap());
+      }).start();
+
+		  System.out.println("Crawling completed");
 		  keyset = webCrawler.getUrls();
 	  }
 	  else
@@ -88,7 +96,18 @@ public class PageParser {
 		  urlMap = db.search();
 		  keyset = new HashSet<String>(urlMap.keySet());
 	  }
+   
+    HashMap<String,List<String>> rankMap = urlMap;
+    new Thread( () -> {
+      PageRanker.generateRanks(rankMap);
+    }).start();
+
 	  parse(keyset);
+	  System.out.println("Parsing Completed");
 	  System.out.println(Instant.now());
+
+    TreeSet<UrlStruct> data = tst.get("us");
+    for(UrlStruct str : data)
+      System.out.println(str.url + " : " + str.rank);
   }
 }
