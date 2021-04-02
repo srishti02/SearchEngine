@@ -31,7 +31,7 @@ public class DbHandler {
 	         /**Basic service for managing set of JDBC Drivers */
 	         c = DriverManager
 	                 .getConnection("jdbc:postgresql://127.0.0.1:5432/postgres",
-	                 "postgres", "test");
+	                 "postgres", "123456");
 	         System.out.println("Opened database successfully");
 	         
 		}catch ( Exception e ) {
