@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
+import helpers.DbHandler;
 import helpers.HtmlToText;
 import patternMatching.TST;
 import webCrawler.Crawler;
@@ -52,12 +55,27 @@ public class PageParser {
   
   public static void main(String[] args) 
   {
-	System.out.println(Instant.now());
-    Crawler webCrawler = new Crawler(1000);
+	HashSet<String> keyset;
+	Map<String, List<String>> urlMap = new HashMap<String, List<String>>();
+    boolean crawl = false;
+    if(crawl)
+    {
+    Crawler webCrawler = new Crawler(10);
     webCrawler.crawl("http://ask.uwindsor.ca");
+    DbHandler.insertion(webCrawler.getReferencedLinksMap());
     System.out.println("Crawling completed");
     System.out.println(Instant.now());
-    parse(webCrawler.getUrls());
+    keyset=webCrawler.getUrls();
+ 
+    }
+    else
+    {
+    urlMap=DbHandler.search();
+    keyset = new HashSet<String>(urlMap.keySet());
+    }
+    parse(keyset);
     System.out.println(Instant.now());
+
+
   }
 }
