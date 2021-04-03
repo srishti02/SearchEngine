@@ -84,7 +84,6 @@ public class NetworkTST
    * @param val : url for which string is to be inserted
    */
   public void put(String s, UrlStruct val) {
-	  System.out.println("inserting " + s);
     if (!contains(s)) n++;
     root = put(root, s, val, 0);
   }
@@ -108,18 +107,8 @@ public class NetworkTST
           collect(root, "", queue);
           return queue;
       }
-  //
-  //    // all keys starting with given prefix
-  //    public Iterable<String> prefixMatch(String prefix) {
-  //        Queue<String> queue = new Queue<String>();
-  //        Node x = get(root, prefix, 0);
-  //        if (x == null) return queue;
-  //        if (!x.urlSet.isEmpty()) queue.enqueue(prefix);
-  //        collect(x.mid, prefix, queue);
-  //        return queue;
-  //    }
-  //
-  //    // all keys in subtrie rooted at x with given prefix
+  
+      //    // all keys in subtrie rooted at x with given prefix
       private void collect(Node x, String prefix, Queue<String> queue) {
           if (x == null) return;
           collect(x.left,  prefix,       queue);
@@ -127,24 +116,4 @@ public class NetworkTST
           collect(x.mid,   prefix + x.c, queue);
           collect(x.right, prefix,       queue);
       }
-  //
-  //
-  //    // return all keys matching given wildcard pattern
-  //    public Iterable<String> wildcardMatch(String pat) {
-  //        Queue<String> queue = new Queue<String>();
-  //        collect(root, "", 0, pat, queue);
-  //        return queue;
-  //    }
-  // 
-  //    private void collect(Node x, String prefix, int i, String pat, Queue<String> q) {
-  //        if (x == null) return;
-  //        char c = pat.charAt(i);
-  //        if (c == '.' || c < x.c) collect(x.left, prefix, i, pat, q);
-  //        if (c == '.' || c == x.c) {
-  //            if (i == pat.length() - 1 && x.urlSet.isEmpty() != null) q.enqueue(prefix + x.c);
-  //            if (i < pat.length() - 1) collect(x.mid, prefix + x.c, i+1, pat, q);
-  //        }
-  //        if (c == '.' || c > x.c) collect(x.right, prefix, i, pat, q);
-  //    }
-
 }
