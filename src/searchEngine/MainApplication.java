@@ -47,7 +47,7 @@ public class MainApplication {
     if(crawl == true)
     {
       /** create crawler object*/
-      Crawler webCrawler = new Crawler(10);
+      Crawler webCrawler = new Crawler(1000);
       System.out.println(Instant.now());
 
       /** start crawling*/
