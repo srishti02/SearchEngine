@@ -17,14 +17,16 @@ import org.jsoup.nodes.Document;
 import webCrawler.Crawler;
 
 /**
+ * @author Margaret
  * @description Class with static methods to convert html data to text.
  */
 public class HtmlToText {
 
   
   /**
-   * This method accepts the Hashmap from the web crawler and iterates through the hashmap keys ie the referenced urls
-   * The text content of each url is then referenced
+   * @brief This method accepts the Hashmap from the web crawler and iterates
+   *        through the hashmap keys ie the referenced urls
+   *        The text content of each url is then referenced
    * @param referencedUrl
    */
   public static HashMap<String,String> convertToText(HashSet<String> urls) 
@@ -49,7 +51,7 @@ public class HtmlToText {
     }
     catch(IOException ex)
     {
-    	ex.printStackTrace();
+      ex.printStackTrace();
       // handle exception
     }
 
@@ -57,38 +59,35 @@ public class HtmlToText {
     HashMap<String/*url*/,String/*content as text*/> pages = 
       new HashMap<String,String>();
 
+    /** For each URL*/
     for (String urlRef:urls)
     {
       try	 
-      {      	  
+      { 
+        /** if url is not empty*/
         if (!urlRef.isEmpty())
         {  
+          /** download url content from web*/
           Document doc = Jsoup.connect(urlRef).get();
+
+          /** get content as text*/
           String content=doc.text();
 
+          /** remove ignore words*/
           for(String ignore : ignoreWords)
           {
             content.replaceAll(ignore,"");
             //System.out.println("removed " + ignore);
           }
 
+          /** insert into hash url vs content as text*/
           pages.put(urlRef,content);
         }
       }
-    catch (IOException e) 
-    {}
+      catch (IOException e) 
+      {}
     }
 
     return pages;
   }
-
-
-
-  public static void main(String[] args) 
-  {
-    Crawler webCrawler = new Crawler(5);
-    webCrawler.crawl("http://ask.uwindsor.ca");
-    System.out.println("");
-  }
-
 }

@@ -5,6 +5,20 @@ import java.util.TreeSet;
 import helpers.Structures.UrlStruct;
 import helpers.Structures.UrlStructComparator;
 
+/**
+ * @author Srishti
+ *
+ * @description This class is an improved version of the TST shared in source code in labs.
+ *              It is a symbol table with string keys, 
+ *              implemented using a ternary search trie (TST).
+ *              
+ *              Major Change : Instead of value the node now has a
+ *              TreeSet<UrlStruct> which shall store all the urls for which a
+ *              token exists and also the rank of those urls.
+ *
+ *              Whena get query is performed, whole TreeSet shall be returned
+ *              leaving the limit of required output to application user.
+ */
 public class NetworkTST
 {
   /** num of nodes in a TST*/

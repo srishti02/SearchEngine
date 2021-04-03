@@ -13,6 +13,11 @@ import org.jsoup.select.Elements;
 
 import java.io.*;
 
+/**
+ * @author Siddharth, Srishti
+ * @description This class recursively performs crawling over web urls to fetch a
+ *              network of URLs referenced through each other.
+ */
 public class Crawler {
 
   private HashSet<String> urls = new HashSet<String>();
@@ -72,34 +77,33 @@ public class Crawler {
     }
   }
 
+  /**
+   * @brief Getter for urlLinks hashmap
+   *
+   * @return urlLinks
+   */
   public HashMap<String, List<String>> getReferencedLinksMap()
   {
     return urlLinks;
   }
 
+  /**
+   * @brief Getter for set of urls
+   *
+   * @return urls
+   */
   public HashSet<String> getUrls()
   {
     return urls;
   }
 
+  /**
+   * @brief Method to add referenced url to urlLinks hashmap.
+   *
+   * @param key and value to add
+   */
   private void addToReferenceLinks(String key, String value)
   {
     urlLinks.get(key).add(value);
-  }
-
-  public static void main(String[] args)
-  {
-    Crawler webCrawler = new Crawler(5);
-    webCrawler.crawl("http://uwindsor.ca");
-    System.out.println("");
-    HashMap<String, List<String>> map = webCrawler.getReferencedLinksMap();
-    Iterator iter = map.entrySet().iterator();
-    
-    while(iter.hasNext())
-    {
-    	HashMap.Entry entry = (HashMap.Entry) iter.next();
-    	System.out.println("[Key] : " + entry.getKey());
-    	System.out.println("[Value] :" + entry.getValue());
-    }   
   }
 }

@@ -15,8 +15,8 @@ import java.util.Map;
 
 
 /**
- * 
- * @description Singleton class to handle connection, information insertion and retrieval
+ * @author Siddharth
+ * @description Class to handle connection, information insertion and retrieval
  *              to/from database.
  */
 public class DbHandler {
@@ -28,6 +28,9 @@ public class DbHandler {
 
 	final String TableName = "url_table";
 
+  /**
+   * @brief Parameterized Constructor for DBHandler
+   */
 	public DbHandler(String ip,String port,String user,String password){
 
 		DbHandler.ip = ip;
@@ -37,7 +40,11 @@ public class DbHandler {
 
 	}
 
-	/** Function for establishing connection with the database*/
+  /**
+   * @brief Function for establishing connection with the database
+   *
+   * @return Connection
+   */
 	public Connection connection_estabilish() {
 		Connection c = null ;
 		/**Configuring the connection with the database*/
@@ -57,7 +64,16 @@ public class DbHandler {
 
 	}
 
-	/** Function for insertion into the table with HashMap value as argument */
+	/** 
+   * @brief Function for insertion into the table with HashMap value as argument
+   *        Steps : 
+   *        Check if table exists, else create table
+   *        truncate table to avoid data duplicacy
+   *        insert into db
+   *
+   * @param links : hashmap containg links vs list of referenced links to be
+   *                stored in database.
+   */                
 	public void insertion(HashMap<String, List<String>> links) {
 
 		long start,end;
@@ -133,7 +149,11 @@ public class DbHandler {
 		System.out.println("Inserted Data into Table Successfully");
 	}
 
-	/** Function for searching from the tble */
+	/**
+   * @brief Function for searching from the tble
+   *
+   * @return HashMap containg links vs links refered by the key link
+   * */
 	public HashMap<String, List<String>> search() {
 
 		long start,end;
@@ -163,7 +183,7 @@ public class DbHandler {
 				// count=count+1;	
 				/** Converting ArrayList to HashMap entries including key-value pairs  */
 				hashMap.put(rs.getString(1),myList);
-				System.out.println("hashmap: " + hashMap + hashMap.size()); 
+				//System.out.println("hashmap: " + hashMap + hashMap.size()); 
 			}
 			end = System.currentTimeMillis();
 			System.out.println("Search Time Taken: " +(end-start) +"ms");
@@ -175,20 +195,6 @@ public class DbHandler {
 		}	
 		System.out.println("Retrived Data from Table Successfully");
 		return hashMap;
-	}
-
-
-	public void main( String args[] ) throws IOException {
-
-		/**Creation of object of Crawler.java   */
-		Crawler webCrawler = new Crawler(30);
-		webCrawler.crawl("http://ask.uwindsor.ca");
-		/**Fetching HashMap results including key-value airs using the crawl function   */  
-		HashMap<String, List<String>> links = webCrawler.getReferencedLinksMap(); 
-		/**Calling above created methods   */ 
-		insertion(links);
-		search();
-		System.out.println("Process completed Successfully");
 	}
 }
 

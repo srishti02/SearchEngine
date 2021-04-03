@@ -13,12 +13,15 @@ import helpers.Structures.UrlStruct;
 import patternMatching.NetworkTST;
 
 /**
+ * @author Margaret, Srishti
  * @description Class to perform parsing operations on a url page retrived from
- *              DB.
+ *              DB or web crawler.
  *
  *              Responsibilities of class:
  *              - Using HtmlToText to get base data for pattern matching.
- *              - Providing data to page ranker.
+ *              - Generate tokens using tokenizer
+ *              - Performing Page Ranking
+ *              - Inserting data in pattern matcher.
  */
 public class PageParser {
 
@@ -49,6 +52,7 @@ public class PageParser {
       HashMap<String/*token*/, Integer /*occurance*/> map = new
         HashMap<String,Integer>();
 
+      //--------------------Page Ranking Logic----------------------------------
       /** for all tokens*/
       while(tokenizer.hasMoreElements())
       {
@@ -67,7 +71,9 @@ public class PageParser {
           map.put(token,1);
         }
       }
-      
+      //------------------------------------------------------------------------
+    
+
       Iterator it = map.entrySet().iterator();
       while(it.hasNext())
       {
